@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  CircularProgress,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory, addProducts } from "../features/products/productsAction";
@@ -140,8 +141,14 @@ const AddCategoryPage = () => {
           onChange={(event) => setDescription(event.target.value)}
         />
 
-        <Button onClick={handleSubmit} variant="contained" color="primary">
-          {isLoading ? <Spinner /> : "Add Category"}
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          color="primary"
+          disabled={isLoading}
+          startIcon={isLoading && <CircularProgress size={20} />}
+        >
+          {isLoading ? "": "Add Category"}
         </Button>
       </AddProductForm>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>

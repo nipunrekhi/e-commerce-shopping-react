@@ -29,7 +29,6 @@ function App() {
   return (
     <div>
       <main>
-        
         <BrowserRouter>
           <Header />
           <Routes>
@@ -58,10 +57,8 @@ function App() {
             <Route path="/addPromocode" element={<AddPromoCodePage />} />
             <Route path="/showPromocode" element={<ShowPromoCodePage />} />
           </Routes>
-        </BrowserRouter>
-        <div>
           <Footer />
-        </div>
+        </BrowserRouter>
       </main>
     </div>
   );

@@ -37,7 +37,7 @@ const Link = styled("a")(({ theme }) => ({
 
 const Footer = () => {
   return (
-    <div>
+    <div style={{marginTop:"100px"}}>
       <FooterContainer>
         <Container>
           <Grid container justifyContent="space-between" alignItems="center">
