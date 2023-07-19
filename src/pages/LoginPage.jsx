@@ -40,7 +40,7 @@ const SignUpLink = styled("a")`
 `;
 
 const LoginPage = () => {
-  const { isError, isSuccess, errorMessage,userInfo } = useSelector(
+  const { isError, isSuccess, errorMessage } = useSelector(
     (state) => state.auth
   );
   const [email, setEmail] = useState("");
@@ -64,7 +64,7 @@ const LoginPage = () => {
       setError(errorMessage);
       setErrorKey((prev) => prev + 1);
     }
-  }, [isSuccess, isError, navigate, errorMessage,userInfo]);
+  }, [isSuccess, isError, errorMessage]);
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);

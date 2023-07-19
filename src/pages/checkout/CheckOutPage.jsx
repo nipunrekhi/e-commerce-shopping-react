@@ -284,9 +284,9 @@ const CheckOutPage = () => {
                     Color: {item?.variant?.color}
                   </Typography>
                 )}
-                {item?.attribute && (
+                {item?.attribute?.size && (
                   <Typography variant="body1">
-                    Size: {item?.attribute}
+                    Size: {item?.attribute?.size}
                   </Typography>
                 )}
                 <Divider sx={{ my: 1 }} />

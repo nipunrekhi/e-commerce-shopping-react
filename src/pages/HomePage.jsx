@@ -27,6 +27,7 @@ const MainImage = styled("img")(({ theme }) => ({
   },
 }));
 const HomePage = () => {
+  const { data, error, isLoading } = useGetUserProfileQuery();
 
   return (
     <Box>

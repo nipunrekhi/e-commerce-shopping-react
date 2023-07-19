@@ -19,6 +19,7 @@ const FooterContainer = styled("footer")(({ theme }) => ({
   position: "fixed",
   bottom: 0,
   left: 0,
+  display:"flex",
   width: "100%",
   marginTop: "250px",
   [theme.breakpoints.up("xs")]: {
@@ -36,23 +37,25 @@ const Link = styled("a")(({ theme }) => ({
 
 const Footer = () => {
   return (
-    <FooterContainer>
-      <Container>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item xs={12} md={6}>
-            <Typography variant="body1">
-              &copy; 2023 My Website. All rights reserved.
-            </Typography>
+    <div>
+      <FooterContainer>
+        <Container>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Typography variant="body1">
+                &copy; 2023 My Website. All rights reserved.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" align="right">
+                <Link href="#">Privacy Policy</Link> |{" "}
+                <Link href="#">Terms of Service</Link>
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="body2" align="right">
-              <Link href="#">Privacy Policy</Link> |{" "}
-              <Link href="#">Terms of Service</Link>
-            </Typography>
-          </Grid>
-        </Grid>
-      </Container>
-    </FooterContainer>
+        </Container>
+      </FooterContainer>
+    </div>
   );
 };
 

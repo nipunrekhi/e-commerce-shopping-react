@@ -70,9 +70,6 @@ const AddCategoryPage = () => {
   const handleImageSelect = (event) => {
     setSelectedImage(event.target.files[0]);
   };
-  const ImageUpload = styled("input")({
-    display: "none",
-  });
 
   useEffect(() => {
     if (isSuccess && isAddCategorySuccess) {

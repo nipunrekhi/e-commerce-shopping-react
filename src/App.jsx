@@ -17,14 +17,19 @@ import AddVariantsPage from "./admin/AddVariantsPage";
 import AddAttributesPage from "./admin/AddAttributesPage";
 import CheckOutPage from "./pages/checkout/CheckOutPage";
 import ProtectedRoute from "./routing/ProtectedRoutes";
-import {CheckOutError, CheckOutSuccess} from "./pages/checkout/CheckOutSuccess";
+import {
+  CheckOutError,
+  CheckOutSuccess,
+} from "./pages/checkout/CheckOutSuccess";
 import Footer from "./components/Footer";
-
+import AddPromoCodePage from "./admin/AddPromocodePage";
+import ShowPromoCodePage from "./admin/ShowPromocodePage";
 
 function App() {
   return (
     <div>
       <main>
+        
         <BrowserRouter>
           <Header />
           <Routes>
@@ -32,9 +37,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/home" element={<HomePage />} />
-            </Route>
+            <Route path="/home" element={<HomePage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
@@ -52,6 +55,8 @@ function App() {
             <Route path="/addSubCategory" element={<AddSubCategoryPage />} />
             <Route path="/addVariant" element={<AddVariantsPage />} />
             <Route path="/addAttributes" element={<AddAttributesPage />} />
+            <Route path="/addPromocode" element={<AddPromoCodePage />} />
+            <Route path="/showPromocode" element={<ShowPromoCodePage />} />
           </Routes>
         </BrowserRouter>
         <div>

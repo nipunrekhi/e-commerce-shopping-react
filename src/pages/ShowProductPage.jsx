@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getVariants,
   showAttribute,
@@ -36,8 +36,8 @@ const ProductContainer = styled(Box)(({ theme }) => ({
     justifyContent: "flex-start",
   },
   [theme.breakpoints.only("xs")]: {
-   marginTop:"-100px",
-   gap:"-2rem"
+    marginTop: "-100px",
+    gap: "-2rem",
   },
 }));
 
@@ -49,7 +49,7 @@ const ProductImage = styled(CardMedia)(({ theme }) => ({
   height: "100%",
   objectFit: "contain",
   marginBottom: "1rem",
-  borderRadius:"6px",
+  borderRadius: "6px",
   transition: "transform 0.2s",
   "&:hover": {
     transform: "scale(1.05)",
@@ -58,7 +58,6 @@ const ProductImage = styled(CardMedia)(({ theme }) => ({
     maxWidth: 600,
     maxHeight: 600,
   },
-  
 }));
 
 const ProductInfo = styled(CardContent)(({ theme }) => ({
@@ -68,7 +67,7 @@ const ProductInfo = styled(CardContent)(({ theme }) => ({
     textAlign: "left",
   },
   [theme.breakpoints.only("xs")]: {
-    marginTop:"-40px"
+    marginTop: "-40px",
   },
 }));
 const AddToCartButton = styled(Button)(({ theme }) => ({
@@ -115,6 +114,9 @@ const VariantContainer = styled(Grid)(({ theme }) => ({
   justifyContent: "flex-start",
   alignItems: "center",
   marginBottom: "1rem",
+  [theme.breakpoints.only("xs")]: {
+    flexWrap: "nowrap",
+  },
 }));
 
 const VariantItem = styled(Grid)(({ theme }) => ({
@@ -145,27 +147,24 @@ const VariantImage = styled(CardMedia)(({ theme }) => ({
   height: "100%",
   width: "100%",
   objectFit: "contain",
-  borderRadius:"4px"
+  borderRadius: "4px",
 }));
 
 const NotAvilableTypography = styled(Typography)(({ theme }) => ({
-  [theme.breakpoints.only("xs")]: {
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
+  
   color: "red",
-  fontFamily:"cursive"
+  fontFamily: "cursive",
 }));
 const ShowProductPage = () => {
   const { data } = useGetUserProfileQuery();
   const { ipAddress } = useSelector((state) => state.auth);
   const { productData, variantData, attributeData, isSuccess } = useSelector(
-    (state) => state.products
+    (state) => state.products,
   );
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedAttribute, setSelectedAttribute] = useState(null);
   const [isCartItemAdded, setIsCartItemAdded] = useState(false);
-  const [ip,setIp]=useState("")
+  const [ip, setIp] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -188,7 +187,14 @@ const ShowProductPage = () => {
     if (isSuccess && isCartItemAdded) {
       notify();
     }
-  }, [isSuccess, productData, variantData, attributeData, isCartItemAdded,ipAddress]);
+  }, [
+    isSuccess,
+    productData,
+    variantData,
+    attributeData,
+    isCartItemAdded,
+    ipAddress,
+  ]);
   useEffect(() => {
     dispatch(showProduct(id));
     dispatch(getVariants(id));
@@ -202,7 +208,7 @@ const ShowProductPage = () => {
   };
 
   const handleAttributeClick = (attribute) => {
-    setSelectedAttribute(attribute.size);
+    setSelectedAttribute(attribute);
   };
   const handleAddToCart = () => {
     const cartItems = {
@@ -297,7 +303,11 @@ const ShowProductPage = () => {
         }
       />
       <ProductInfo>
-        <Typography variant="h5" component="h1" sx={{fontWeight:"500"}} gutterBottom>
+        <Typography
+          variant="h5"
+          component="h1"
+          sx={{ fontWeight: "500" }}
+          gutterBottom>
           Product Name: {updatedName}
         </Typography>
         <Typography variant="body1" gutterBottom>
@@ -325,7 +335,7 @@ const ShowProductPage = () => {
                             component="img"
                             alt="Variant Image"
                             src={`http://localhost:8089/${variant?.image?.slice(
-                              8
+                              8,
                             )}`}
                           />
                         </VariantImageContainer>
@@ -349,15 +359,14 @@ const ShowProductPage = () => {
 
               {attributeData.length === 0 ? (
                 <>
-                  <NotAvilableTypography >Not Available</NotAvilableTypography>
+                  <NotAvilableTypography>Not Available</NotAvilableTypography>
                 </>
               ) : (
                 <>
                   {attributeData.map((attribute) => (
                     <Grid item key={attribute._id} xs={12} sm={3}>
                       <VariantItem
-                        onClick={() => handleAttributeClick(attribute)}
-                      >
+                        onClick={() => handleAttributeClick(attribute)}>
                         <Button variant="body2">{attribute.size}</Button>
                       </VariantItem>
                     </Grid>
@@ -370,15 +379,13 @@ const ShowProductPage = () => {
         <AddToCartButton
           startIcon={<AddShoppingCart />}
           onClick={handleAddToCart}
-          variant="contained"
-        >
+          variant="contained">
           Add to Cart
         </AddToCartButton>
         <BuyButton
           onClick={handleBuyNow}
           startIcon={<LocalMall />}
-          variant="contained"
-        >
+          variant="contained">
           BuyNow
         </BuyButton>
       </ProductInfo>

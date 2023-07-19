@@ -13,10 +13,11 @@ const addToCart = asyncHandler(async (req, res) => {
     variant,
     attribute,
   } = req.body;
+  
   // User is logged in, save the data in the database
   try {
     // Check if the cart item already exists for the user and product
-    const existingItem = await Cart.findOne({ productId, variant, attribute,userId });
+    const existingItem = await Cart.findOne({ productId, variant, attribute ,userId});
     if (existingItem) {
       // Update the quantity if the item already exists
       existingItem.quantity += quantity;

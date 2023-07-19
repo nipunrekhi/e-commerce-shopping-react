@@ -12,6 +12,7 @@ import {
   ListItemText,
   Button,
   Grid,
+  Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,8 +29,10 @@ import CategoryIcon from "@mui/icons-material/Category";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import {
   AspectRatio,
+  Discount,
   Login,
   Palette,
+  PersonOffOutlined,
   ShoppingBag,
   ShoppingCart,
 } from "@mui/icons-material";
@@ -67,7 +70,7 @@ const Header = () => {
     dispatch(showCartItems());
   }, [dispatch]);
 
- useEffect(() => {
+  useEffect(() => {
     setCartItemCount(cartItem?.length);
   }, [cartItem?.length]);
   return (
@@ -91,37 +94,50 @@ const Header = () => {
             sx={{ fontFamily: "monospace" }}>
             Ecommerce Shopping
           </Typography>
-
-          <IconButton
-            onClick={() => navigate("/cart")}
-            color="inherit"
-            aria-label="open cart"
-            edge="start"
-            sx={{
-              marginLeft: "auto",
-              fontFamily: "monospace",
-              mr: 2,
-              display: { xs: "none", sm: "block" },
-            }}>
-            <ShoppingCart />
-            {cartItemCount > 0 && (
-              <span
-                className="cart-item-count"
-                style={{
-                  backgroundColor: "red",
-                  color: "white",
-                  fontSize: "12px",
-                  padding: "4px",
-                  borderRadius: "50%",
-                  position: "absolute",
-                  width: "10px",
-                  top: "-5px",
-                  right: "-8px",
-                }}>
-                {cartItemCount}
-              </span>
-            )}
-          </IconButton>
+          <Tooltip title="Cart">
+            <IconButton
+              onClick={() => navigate("/cart")}
+              color="inherit"
+              aria-label="open cart"
+              edge="start"
+              sx={{
+                marginLeft: "auto",
+                fontFamily: "monospace",
+                mr: 2,
+                display: { xs: "none", sm: "block" },
+              }}>
+              <ShoppingCart />
+              {cartItemCount > 0 && (
+                <span
+                  className="cart-item-count"
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    fontSize: "12px",
+                    padding: "4px",
+                    borderRadius: "50%",
+                    position: "absolute",
+                    width: "10px",
+                    top: "-5px",
+                    right: "-8px",
+                  }}>
+                  {cartItemCount}
+                </span>
+              )}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Profile">
+            <IconButton
+              onClick={() => navigate("/profile")}
+              color="inherit"
+              sx={{
+                display: { xs: "none", sm: "block" },
+              }}
+              aria-label="open cart"
+              edge="start">
+              <AccountCircleIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -244,6 +260,32 @@ const Header = () => {
               <ListItemText primary="Add Attributes" />
             </ListItem>
           )}
+          {userInfo?.role === "Admin" && (
+            <ListItem
+              button
+              onClick={() => {
+                navigate("/addPromocode");
+                handleDrawerClose();
+              }}>
+              <ListItemIcon>
+                <Discount />
+              </ListItemIcon>
+              <ListItemText primary="Add Promocode" />
+            </ListItem>
+          )}
+          {userInfo?.role === "Admin" && (
+            <ListItem
+              button
+              onClick={() => {
+                navigate("/showPromocode");
+                handleDrawerClose();
+              }}>
+              <ListItemIcon>
+                <Discount />
+              </ListItemIcon>
+              <ListItemText primary="Show Promocodes" />
+            </ListItem>
+          )}
           <ListItem
             button
             onClick={() => {
@@ -307,7 +349,6 @@ const Header = () => {
       <MainContent>
         <Toolbar />
       </MainContent>
-
     </div>
   );
 };

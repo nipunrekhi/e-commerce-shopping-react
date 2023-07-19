@@ -14,7 +14,7 @@ const generateClientSecret = asyncHandler(async (req, res) => {
   const customer = await stripe.customers.create({
     metadata: {
       userId: req.body.userId,
-      cart: JSON.stringify(req.body.cartItems.cartItems),
+      cart: JSON.stringify(req.body.cartItems.cartItems.toString()),
     },
   });
   let line_items = req.body.cartItems.cartItems.map((item) => {

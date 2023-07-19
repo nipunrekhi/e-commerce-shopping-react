@@ -13,6 +13,7 @@ router.post("/login", userController.login);
 router.get("/userProfile", authenticateJWT, userController.getUserProfile);
 router.get("/reqIp", userController.getIpAddress);
 router.post("/signInGuest", userController.signInAsGuest);
+router.get("/getAllUsers", userController.getAllUser);
 
 //Products routes
 router.post(

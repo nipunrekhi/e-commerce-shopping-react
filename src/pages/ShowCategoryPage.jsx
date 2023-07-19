@@ -32,12 +32,12 @@ const ProductCard = styled("div")({
   },
   "& h3": {
     marginTop: "-0.3rem",
-    fontSize: "1.4rem",
+    fontSize: "1.0rem",
     fontWeight: 500,
     marginBottom: "-2rem",
   },
   "& p": {
-    fontSize: "1.2rem",
+    fontSize: "1.0rem",
     fontWeight: 500,
     marginTop: "2.5rem",
   },

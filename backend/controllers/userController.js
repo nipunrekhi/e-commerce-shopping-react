@@ -123,4 +123,8 @@ const signInAsGuest = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "User registered successfully" ,token});
 });
 
-export { register, login, getUserProfile, getIpAddress, signInAsGuest };
+const getAllUser=asyncHandler(async(req,res)=>{
+  const users=await User.find({});
+  res.status(200).json(users);
+})
+export { register, login, getUserProfile, getIpAddress, signInAsGuest ,getAllUser};

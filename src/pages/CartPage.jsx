@@ -37,6 +37,9 @@ import { useGetUserProfileQuery } from "../app/services/authService";
 import { useState } from "react";
 import { signInAsGuest } from "../features/auth/authAction";
 import Error from "../components/error";
+import { applyPromo } from "../features/promocode/promoAction";
+import UseLocalStorageState from "../hooks/UseLocalStorageStateHook";
+import useLocalStorageState from "../hooks/UseLocalStorageStateHook";
 
 const CartItem = styled(ListItem)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -66,15 +69,50 @@ const CenteredTypography = styled(Typography)(({ theme }) => ({
   height: "50vh",
   animation: `${fadeIn} 1s ease-in`,
 }));
+const PromocodeField = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginRight: "auto",
+  [theme.breakpoints.only("xs")]: {
+    justifyContent: "flex-start",
+    height: "60px",
+    width: "122px",
+    marginLeft: "4px",
+  },
+}));
+const ApplyPromoCode = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginRight: "auto",
+  marginTop: "4px",
+  [theme.breakpoints.only("xs")]: {
+    justifyContent: "flex-start",
+    height: "60px",
+    width: "122px",
+    marginLeft: "4px",
+    marginTop: "0px",
+  },
+}));
+const ApplyPromoCodeButton = styled(Button)(({ theme }) => ({
+  [theme.breakpoints.only("xs")]: {
+    height: "40px",
+    width: "90px",
+    fontSize: "xx-small",
+  },
+}));
 const ShoppingCartPage = () => {
   const { cartItem, isSuccess, isError, errorMessage } = useSelector(
-    (state) => state.cart
+    (state) => state.cart,
+  );
+  const { promoData } = useSelector(
+    (state) => state.promocode,
   );
   const [cartItems, setCartItems] = useState([]);
   const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
   const [guestEmail, setGuestEmail] = useState("");
   const [guestPassword, setGuestPassword] = useState("");
   const [isGuestSuccess, setIsGuestSuccess] = useState(false);
+  const [promoName, setPromoName] = useState("");
+  const [discount, setDiscount] = UseLocalStorageState("promoData", null);
+  const [isPromoApplied, setIsPromoApplied] = useState(false);
   const [error, setError] = useState("");
   const [errorKey, setErrorKey] = useState(0);
   const { data } = useGetUserProfileQuery();
@@ -89,7 +127,7 @@ const ShoppingCartPage = () => {
       setError(errorMessage);
       setErrorKey((prev) => prev + 1);
     }
-  }, [cartItem, isSuccess, isGuestSuccess, isError]);
+  }, [cartItem, isSuccess, isGuestSuccess, isError,promoData]);
   useEffect(() => {
     dispatch(showCartItems());
   }, [dispatch]);
@@ -123,7 +161,7 @@ const ShoppingCartPage = () => {
     }
     const orderDetails = {
       cartItems: cartItems,
-      totalPrice: getTotalPrice(),
+      totalPrice: promoData ? promoData.totalPrice : getTotalPrice(),
       // Add other relevant order details here
     };
     localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
@@ -149,8 +187,12 @@ const ShoppingCartPage = () => {
       });
     }
   };
+  const handlePromo = () => {
+    setIsPromoApplied(true);
+    dispatch(applyPromo(promoName));
   
-
+  };
+  console.log(promoData);
   return (
     <Box p={2}>
       <Typography
@@ -198,12 +240,8 @@ const ShoppingCartPage = () => {
                       <div
                         className="container"
                         style={{
-                          border: "solid 1px",
-                          borderRadius: "28px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignContent: "center",
-                          alignItems: "center",
+                          border: "2px solid rgba(0 0 0 / 52%)",
+                          borderRadius: "10px",
                         }}
                       >
                         <Grid container spacing={2}>
@@ -258,9 +296,51 @@ const ShoppingCartPage = () => {
                 <Typography variant="h6">
                   Total Price: Rs {getTotalPrice().toFixed(2)}
                 </Typography>
+                {promoData && (
+                  <>
+                    <Typography variant="h6">
+                      Discount: Rs {promoData.discount.toFixed(2)}
+                    </Typography>
+                    <Typography variant="h6">
+                      Subtotal: Rs {promoData.totalPrice.toFixed(2)}
+                    </Typography>
+                  </>
+                )}
               </Grid>
             </Grid>
           </CartItem>
+
+          {/* PromoCode Section */}
+          <PromocodeField>
+            <TextField
+              InputProps={{
+                style: {
+                  borderRadius: "20px",
+                },
+              }}
+              label="Promo Code"
+              variant="outlined"
+              onChange={(event) => setPromoName(event.target.value)}
+            />
+          </PromocodeField>
+          <ApplyPromoCode>
+            <ApplyPromoCodeButton
+              variant="contained"
+              color="primary"
+              sx={{
+                borderRadius: "30px",
+                ...(isPromoApplied && {
+                  backgroundColor: "green",
+                  fontWeight: "bold",
+                }),
+              }}
+              onClick={handlePromo}
+              disabled={isPromoApplied} // Disable the button when the promo is already applied
+            >
+              {isPromoApplied ? "Promocode Applied" : "Apply promocode"}
+            </ApplyPromoCodeButton>
+          </ApplyPromoCode>
+
           <Button
             onClick={handleProceedToBuy}
             startIcon={<LocalMall />}
@@ -288,6 +368,7 @@ const ShoppingCartPage = () => {
           >
             Proceed To Buy
           </Button>
+
           <Dialog open={isGuestModalOpen} onClose={handleGuestModalClose}>
             {error && <Error key={errorKey} message={error} />}
             <DialogTitle>Sign in as a guest or login</DialogTitle>

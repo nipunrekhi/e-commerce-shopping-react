@@ -59,7 +59,7 @@ const CategoryTree = ({ onCategoryChange }) => {
             {renderDropdownTree(
               categories.find((category) => category._id === selectedCategoryId)
                 ?.children,
-              categoryIndex + 1
+              categoryIndex + 1,
             )}
           </FormControl>
         )}

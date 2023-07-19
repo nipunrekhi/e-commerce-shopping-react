@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  getAllUser,
   getIpAddress,
   loginUser,
   registerUser,
@@ -119,6 +120,25 @@ const authSlice = createSlice({
       state.errorMessage = "";
     });
     builder.addCase(signInAsGuest.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+      state.errorMessage = payload.error;
+    });
+    builder.addCase(getAllUser.pending, (state) => {
+      state.isLoading = true;
+      state.isSuccess = false;
+      state.isError = false;
+      state.errorMessage = "";
+    });
+    builder.addCase(getAllUser.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.data = payload;
+      state.isError = false;
+      state.errorMessage = "";
+    });
+    builder.addCase(getAllUser.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
